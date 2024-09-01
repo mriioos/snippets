@@ -1,0 +1,27 @@
+.survey-questions-progress-bar-wrapper{
+    height:fit-content;
+    width:100%;
+}
+
+.progress-bar{
+    --progress-bar-background:rgba(18, 18, 18, 0.3);
+
+    height:0.5vh;
+
+    background-color:var(--progress-bar-background);
+}
+
+.progress-bar-progress{
+    --progress-bar-main-color:rgb(165, 42, 42);
+    --progress-bar-secondary-color:rgb(165, 110, 110);
+
+    --progress-bar-state-gradient:linear-gradient(to left, var(--progress-bar-main-color), var(--progress-bar-secondary-color));
+    --progress-bar-state-solid:var(--progress-bar-main-color);
+
+    display:block;
+
+    height:100%;
+    width:0%;
+
+    transition: width 0.3s ease;
+}
