@@ -8,16 +8,21 @@
  * The placeholder tag will be replaced by the snippet, only whitelisted domains and the current domain will be accepted.
  * 
  * This script includes protection against Embeding XSS Attacks by whitelisting the provided domains. Only include trusted domains with https protocols.
- * Add attribute data-domain="https://domaintowhitelist.ext" to whitelist the domain.
+ * Add attribute data-domain="https://domaintowhitelist.ext" to whitelist the domain. Protocol must be included.
  * The document's hostname is always accepted as valid.
  * Add more script tags to whitelist more domains.
  */
 
 /**
+ * Get window base domain
+ */
+const baseDomain = `${window.location.protocol}//${window.location.host}`;
+
+/**
  * Get the domain passed to this script that specify valid source (To prevent Embedment XSS attacks).
  * By default, only snippets relative to the server's domain are accepted.
  */
-const domain = document.currentScript.getAttribute('data-domain') || window.location.hostname;
+const domain = new URL(document.currentScript.getAttribute('data-domain') || baseDomain);
 
 /**
  * Procedure to embed elements from urls given the attribute name that holds the htmls url.
@@ -36,9 +41,9 @@ function embedElements(attributeName){
 
         // Check validity of source url (To prevent XSS attacks)
         try{
-            const parsedURL = new URL(url, domain);
+            const parsedURL = new URL(url, baseDomain);
 
-            if(parsedURL.hostname != domain) return; // Ignore placeholder
+            if(parsedURL.protocol != domain.protocol || parsedURL.host != domain.host) return; // Ignore placeholder
 
             // Alert user if protocol is http
             const lang = (navigator.language || navigator.userLanguage).split('-')[0]; // Fallback for older browsers
