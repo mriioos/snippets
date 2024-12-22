@@ -1,0 +1,47 @@
+.easy-form-title{
+    text-align:center;
+    font-size:large;
+}
+
+.easy-form-group{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.easy-form-group > label{ /*Group title*/
+    display: block;
+    width: 100%;
+    margin:0 0.5rem 0 0.5rem;
+}
+
+.easy-form-group > .easy-form-field{
+    width: calc(49% - 1rem);
+}
+
+.easy-form-field{
+    margin:0 0.5rem 10px 0.5rem;
+}
+
+.easy-form-field > label{
+    width:100%;
+    display:block;
+}
+
+.easy-form-field > input{
+    height:30px;
+    width:100%;
+}
+
+.easy-form-button{
+    display:block;
+
+    height:30px;
+    width:70%;
+    background: linear-gradient(to top left, #48bb78, #4299e1);
+    border-radius: 3px;
+
+    margin:1rem auto 0 auto;
+
+    color:white;
+}
