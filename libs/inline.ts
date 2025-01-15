@@ -96,12 +96,12 @@ export type Switcher = {
  * It allows you to use a separator to define multiple keys for a single case. 
  * But note that this behaviour could be slightly less efficient than using a direct key or multiple cases in a switch.
  * @example
- * Using a separator:
+ * // Using a separator:
  * select('case1', {
  *    'case1:case2' : 'value1',
  * });
  * 
- * Is less efficient than:
+ * // Is less efficient than:
  * switch(key){
  *      case 'case1':
  *      case 'case2':
@@ -109,20 +109,38 @@ export type Switcher = {
  *      break;
  * }
  * 
- * To keep efficiency in this case, you can use multiple keys for the same value:
+ * // To keep efficiency in this case, you can use multiple keys for the same value:
  * select('case1', {
  *      'case1' : 'value1',
  *      'case2' : 'value1',
  * });
  * 
+ * // Also, if switcher object is null, a 'from' function is returned to allow the switcher to be passed as a parameter. 
+ * @example
+ * select('case1')
+ * .from({
+ *     'case1' : 'value1',
+ *    'case2' : 'value2',
+ * });
+ * 
+ * // or
+ * select('case1')
+ * .from({
+ *    'case1:case2' : 'value1',
+ *    'case3' : 'value2',
+ * }, ':'); // <- Separator defined
+ * 
  * @param key Value to be searched for in the switcher.
- * @param switcher Object that maps the value to be searched with the return value.
+ * @param switcher Object that maps the value to be searched with the return value (optional).
  * @param separator String that separates multiple keys in a single case (optional).
  * @returns 
  * 
  * Note : Admits a 'default' key in the switcher object to return a default value when no case is found.
  */
-export function select(key : any, switcher : Switcher, separator? : string) : any{
+export function select(key : any, switcher? : Switcher, separator? : string) : any{
+
+    // Return a function called 'from' (to select-from) that accepts the switcher if it is not defined
+    if(!switcher) return { from : (switcher : Switcher, separator? : string) => select(key, switcher, separator) };
 
     // Get value directly if separator is not defined
     if(!separator) return switcher[key] ?? switcher['default'];
@@ -134,7 +152,7 @@ export function select(key : any, switcher : Switcher, separator? : string) : an
         if(typeof switcher_key === 'string'){
 
             // Check if case key is included in switcher_key
-            switcher_key.split(separator).includes(key);   
+            return switcher_key.split(separator).includes(key);   
         }
 
         // Manage non-string keys by comparing them directly
