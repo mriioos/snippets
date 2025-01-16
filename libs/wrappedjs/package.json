@@ -1,6 +1,6 @@
 {
   "name": "wrappedjs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This package provides wrapped versions of basic JavaScript blocks like switch or try-catch, making them usable in a more inline fashion for flexible usage inside function parameters or chained calls. I created it out of frustration with not being able to use switch inline—hope it softens your coding experience :).",
   "main": "dist/wrapped.js",
   "types": "dist/wrapped.d.ts",

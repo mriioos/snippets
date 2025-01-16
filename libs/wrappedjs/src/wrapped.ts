@@ -9,7 +9,7 @@
  * @version 1.0.0
  * @license MIT License
  * 
- * @repository https://github.com/yourusername/your-repository
+ * @repository https://github.com/mriioos/snippets/tree/main/libs/wrappedjs
  * 
  * @note Feel free to use, modify, and distribute it under the terms of the MIT License.
  */
