@@ -45,19 +45,19 @@
  * 
  * @param func_or_promise A function returning a promise or a direct promise to be awaited for.
  * @returns Array containing both:
- * - The result of a successful try (first element) 
- * - The error of the catch (second element).
+ * - The error of the catch (first element).
+ * - The result of a successful try (second element) 
  * 
  * Note: Even with all of this boilerplate code solved, I still can't debug those errors for you, sorry. As the prophecy tells: "One day, all errors will be autodebugged". So cheer up, have a good coding!
  */
-export async function try_catch<T>(func_or_promise : (() => Promise<T>) | Promise<T>) : Promise<[T, null] | [null, any]>{
+export async function try_catch<T>(func_or_promise : (() => Promise<T>) | Promise<T>) : Promise<[any, null] | [null, T]>{
     try{
         const promise = typeof func_or_promise === 'function' ? func_or_promise() : func_or_promise;
         const result : T = await promise;
-        return [result, null];
+        return [null, result];
     }
     catch(err : any){
-        return [null, err];
+        return [err, null];
     }
 }
 
@@ -146,7 +146,7 @@ export function select(key : any, switcher? : Switcher, separator? : string) : a
     if(!separator) return switcher[key] ?? switcher['default'];
 
     // Find first key in switcher that includes the search-by key if separator is defined
-    const found_key : any = switcher[key] ?? Object.keys(switcher).find(switcher_key => {
+    const found_key : any = switcher[key] ?? Object.keys(switcher).find((switcher_key : string | number | symbol)=> {
 
         // Only split key by separator if it is a string
         if(typeof switcher_key === 'string'){

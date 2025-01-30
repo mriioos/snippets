@@ -73,7 +73,7 @@ This function wraps your `try-catch` block, making it more concise and easier to
 #### Example:
 
 ```typescript
-const [result, error] = await try_catch(async () => {
+const [error, result] = await try_catch(async () => {
     // Some async code that might fail
     return await fetchData();
 });
