@@ -84,9 +84,9 @@ export async function try_catch<T>(func_or_promise : (() => Promise<T>) | Promis
  *      default : defaultFunction
  * }
  */
-export type Switcher = { 
-    [_case : string | number | symbol] : any,
-    'default'? : any
+export type Switcher<T = any> = { 
+    [_case : string | number | symbol] : T | undefined,
+    'default'? : T
 };
 
 /**
@@ -137,10 +137,13 @@ export type Switcher = {
  * 
  * Note : Admits a 'default' key in the switcher object to return a default value when no case is found.
  */
-export function select(key : any, switcher? : Switcher, separator? : string) : any{
+export function select<T>(key: any, switcher: Switcher<T>, separator?: string): T;
+export function select<T>(key: any): { from: (switcher: Switcher<T>, separator?: string) => T };
+
+export function select<T = any>(key : any, switcher? : Switcher<T>, separator? : string){
 
     // Return a function called 'from' (to select-from) that accepts the switcher if it is not defined
-    if(!switcher) return { from : (switcher : Switcher, separator? : string) => select(key, switcher, separator) };
+    if(!switcher) return { from : (switcher : Switcher<T>, separator? : string) => select<T>(key, switcher, separator) as T }; // T can be casted because switcher is defined
 
     // Get value directly if separator is not defined
     if(!separator) return switcher[key] ?? switcher['default'];
