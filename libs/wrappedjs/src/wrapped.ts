@@ -148,8 +148,11 @@ export function select<T = any>(key : any, switcher? : Switcher<T>, separator? :
     // Get value directly if separator is not defined
     if(!separator) return switcher[key] ?? switcher['default'];
 
+    // Check if key can be accessed directly without using the separator
+    if(switcher[key] !== undefined) return switcher[key];
+
     // Find first key in switcher that includes the search-by key if separator is defined
-    const found_key : any = switcher[key] ?? Object.keys(switcher).find((switcher_key : string | number | symbol)=> {
+    const found_key : any = Object.keys(switcher).find((switcher_key : string | number | symbol)=> {
 
         // Only split key by separator if it is a string
         if(typeof switcher_key === 'string'){
